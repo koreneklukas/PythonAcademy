@@ -33,12 +33,19 @@ TEXTS = [
     in modern oceans. Other fish such as paddlefish,
     garpike and stingray are also present.'''
 ]
-# print("ahoj" * 50)
+
 
 # Funkce na provádění analýzy nad daným textem
-def machine_analyze(text_index):
+
+def machine_analyze(text_index: int) -> None:
+	'''
+	Funkce analyzuje text na daném indexu v seznamu TEXTS.
+	Zjistí počet slov, počet slov v různých formátech (titlecase, uppercase, lowercase),
+    spočítá počet čísel a jejich součet a vykreslí textový graf výskytu délek slov.
+	'''
+
+
 	words = len(TEXTS[text_index].split())
-	print(f"There are {words} words in the selected text.")
 
 	count_title = 0
 	count_upper = 0
@@ -47,18 +54,15 @@ def machine_analyze(text_index):
 	for word in TEXTS[text_index].split():
 		if word.istitle():
 			count_title += 1
-	print(f"There are {count_title} titlecase words.")
-
-
-	for word in TEXTS[text_index].split():
-		if word.isupper():
+		elif word.isupper():
 			count_upper += 1
-	print(f"There are {count_upper} uppercase words.")
-
-	for word in TEXTS[text_index].split():
-		if word.islower():
+		elif word.islower():
 			count_lower += 1
-	print(f"There are {count_lower} lowercase words.")
+
+	print(f"There are {words} words in the selected text.\n"
+		  f"There are {count_title} titlecase words.\n"
+		  f"There are {count_upper} uppercase words.\n"
+		  f"There are {count_lower} lowercase words")
 
 	count_numeric = 0
 	sum_all_numbers = 0
@@ -68,13 +72,11 @@ def machine_analyze(text_index):
 			count_numeric += 1
 			sum_all_numbers += int(number)
 
-	print(f"There are {count_numeric} numeric strings.")
-	print(f"The sum of all the numbers {sum_all_numbers}")
-	print("-" * 40)
-	print(
-		"LEN|    OCCURENCES      |NR."
-	)
-	print("-" * 40)
+	print(f"There are {count_numeric} numeric strings.\n"
+		  f"The sum of all the numbers {sum_all_numbers}\n"
+		  f"{'-' * 40}\n"
+		  f"LEN |    OCCURENCES    |NR.\n"
+		  f"{'-' * 40}")
 
 	slovnik = {}
 	for slovo in TEXTS[text_index].split():
@@ -85,7 +87,7 @@ def machine_analyze(text_index):
 
 	for delka in sorted(slovnik):
 		pocet = slovnik[delka]
-		print(f"{delka:>2} | {"*" * pocet:<18} | {pocet}")
+		print(f"{delka:>3} | {"*" * pocet:<22} | {pocet}")
 
 
 
@@ -101,14 +103,14 @@ registered_users = {
 
 # User input
 username = input("username: ").lower()
-pwd = input("Password: ").lower()
+pwd = input("Password: ")
 
 print("-" * 40)
 
 if username in registered_users and registered_users[username] == pwd:
 	print(f"Welcome to the app, {username} \n"
-		  "We have 3 texts to be analyzed.")
-	print("-" * 40)
+		  "We have 3 texts to be analyzed.\n"
+		  f"{'-' * 40}")
 
 
 
@@ -125,16 +127,14 @@ if username in registered_users and registered_users[username] == pwd:
 
 	choice = int(choice_text)
 
-
-	if choice == 1:
-		machine_analyze(0)
-	elif choice == 2:
-		machine_analyze(1)
-	elif choice == 3:
-		machine_analyze(2)
+	if choice >= 1 and choice <= 3:
+		machine_analyze(choice -1)
 	else:
 		print("Zadané číslo není v zadání.")
 
+
 else:
-	print("Unregistered user, terminating the program...")
+	print(f"username: {username}\n"
+		  f"password: {pwd}\n"
+		  f"unregistered user, terminating the program..")
 
